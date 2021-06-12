@@ -57,6 +57,28 @@ def midpoint_double2(f,a,b,c,d,nx,ny):
         return midpoint(lambda y: f(x,y), c, d, ny)
     return midpoint(g, a, b, nx)
 
+def midpoint_triple1(f,a,b,c,d,e,f,nx,ny,nz):
+    "midpoint triple integration using 1d midpoint function"
+    def g(x,y):
+        return midpoint(lambda z : f(x,y,z), e, f, nz)
+    
+    def h(x):
+        return midpoint(lambda y: f(x,y), c, d, ny )
+    return midpoint(h,a,b,nx)
+
+def midpoint_triple2(f,a,b,c,d,e,f,nx,ny,nz):
+    hx = (b-a)/nx
+    hy = (d-c)/ny
+    hz = (f-e)/nz
+    I = 0
+    for i in range(nx):
+        for j in range(ny):
+            for k in range(nz):
+                xi = a + hx/2 + i*hx
+                yj = c + hy/2 + j*hy
+                zk = e + hz/2 + k*hz
+                I += hx*hy*hz*f(xi,yj,zk)
+    return I
 
 def convergence_test(method,f,a,b,n,iterations, rate=2):
     "basic convergence test (human verified) for integration methods"
